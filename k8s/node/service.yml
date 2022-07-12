@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodesc-service
+spec:
+  selector:
+    app: nodesc
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+      nodePort: 31110
