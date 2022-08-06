@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "cc9881ee-6f05-4dc5-87e8-646ec7a82e37",
+		"name": "palador_interview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2264493"
+	},
+	"item": [
+		{
+			"name": "GET Employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/employees/get",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Employees",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeId\": 22,\r\n    \"name\": \"Michael3\",\r\n    \"managerId\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/employees/addEmployee",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"addEmployee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Employees/{employeeId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/employees/deleteEmployee/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"deleteEmployee",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL Employees/{employeeId} Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newName\" : \"Thomas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/employees/updateEmployee/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"updateEmployee",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Employees/{employeeId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/employees/get/100",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"get",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Employees/{employeeId}?includeReportingTree=true",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/employees/get/1?includeReportingTree=true",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"get",
+						"1"
+					],
+					"query": [
+						{
+							"key": "includeReportingTree",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

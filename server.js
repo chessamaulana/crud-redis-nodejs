@@ -1,53 +1,57 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
+const express = require('express')
+const app = express()
+const redis = require('./modules/redis')
+const fs = require("fs");
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const User = require("./models/User");
-require("dotenv/config");
 app.use(bodyParser.json());
 app.use(logger);
 
-app.get("/", (req, res) => {
-  console.log("hi");
-  res.json("TEST");
-});
 
-const userRouter = require("./routes/user");
 
-app.use("/user", userRouter);
+const PORT = process.env.PORT || 3000
 
-function logger(req, res, next) {
-  console.log(req.originalUrl);
-  next();
+// Seeder
+async function readJsonData() {
+
+    try {
+
+        const data = JSON.parse(await redis.get("palador"))
+
+        if (data !== null) {
+            console.log("Read from cache")
+        } else {
+
+            const response = await new Promise((resolve, rejects) => {
+                fs.readFile("./organization-tree.json", "utf8", (err, jsonString) => {
+                    if (err) {
+                        rejects(err)
+                    }
+                    console.log("Read File ...")
+                    resolve(jsonString)
+                });
+            })
+            const data = await response;
+            //Set data to Redis
+            const reply = await redis.set("palador", data)
+            console.log(reply)
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
 }
 
-//Connect to DB
-mongoose.connect(
-  process.env.DB_CONNECTION,
-  { useNewUrlParser: true },
-  (err) => {
-    console.log(err);
-    console.log("Connected to DB!");
-    //Adding Admin
-    bcrypt.hash("admin", 10, (err, hashedPass) => {
-      if (err) {
-        console.log(err);
-      }
-      const data = new User({
-        username: "admin",
-        password: hashedPass,
-        level: 1,
-      });
-      data.save((err, result) => {
-        if (err) {
-          console.log("E11000 duplicate key error on Admin");
-        } else {
-          console.log("Adding Admin");
-        }
-      });
-    });
-  }
-);
+readJsonData();
 
-app.listen(4000);
+const employeesRouter = require("./routes/employees");
+
+app.use("/employees", employeesRouter);
+
+function logger(req, res, next) {
+    console.log(req.originalUrl);
+    next();
+}
+
+app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+})
